@@ -1,5 +1,7 @@
+import kotlinx.browser.document
 import kotlinx.browser.window
 import location.LocationManager
+import org.w3c.dom.HTMLParagraphElement
 
 fun onLoad() {
     println("Starting gcweb client...")
@@ -19,6 +21,7 @@ fun locationTest() {
 
     LocationManager.watchLocation({ pos ->
         console.log(pos)
+        (document.getElementById("debug-location") as HTMLParagraphElement).textContent = pos.toString()
     }, { error, msg ->
         println("Encountered an error while obtaining location: ${error.name}, $msg")
     })

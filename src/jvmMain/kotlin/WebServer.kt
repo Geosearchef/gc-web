@@ -1,5 +1,6 @@
 import spark.Spark.port
 import spark.Spark.staticFiles
+import spark.kotlin.secure
 import util.Util
 import java.io.File
 
@@ -12,6 +13,12 @@ object WebServer {
         log.info("Serving static files from $STATIC_FILES_LOCATION")
         staticFiles.externalLocation(STATIC_FILES_LOCATION)
         port(GCWebOptions.STATIC_PORT)
+
+        if(GCWebOptions.ENABLE_SSL) {
+            log.info("Enabling SSL")
+            secure("gcweb-keystore.jks", "123456", "gcweb-keystore.jks", "123456")
+        }
+
         spark.Spark.init()
     }
 

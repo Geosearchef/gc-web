@@ -46,10 +46,10 @@ object LocationManager {
         (js("position.coords.latitude") as Number).toDouble(),
         (js("position.coords.longitude") as Number).toDouble(),
         (js("position.coords.accuracy") as Number).toDouble(),
-        (js("position.coords.altitude != null ? position.coords.altitude : -1") as Number).toDouble(),  // can be null
-        (js("position.coords.altitudeAccuracy != null ? position.coords.altitudeAccuracy : -1") as Number).toDouble(),  // can be null
-        (js("position.coords.heading != null ? position.coords.heading : -1") as Number).toDouble(),  // can be null
-        (js("position.coords.speed != null ? position.coords.speed : -1") as Number).toDouble(),  // can be null
+        (js("position.coords.altitude != null ? position.coords.altitude : -1") as Number).toDouble(),  // can be invalid -> -1
+        (js("position.coords.altitudeAccuracy != null ? position.coords.altitudeAccuracy : -1") as Number).toDouble(),  // can be invalid -> -1
+        (js("position.coords.heading != null ? position.coords.heading : -1") as Number).toDouble(),  // can be invalid -> -1
+        (js("position.coords.speed != null ? position.coords.speed : -1") as Number).toDouble(),  // can be invalid -> -1
     )
 
 
