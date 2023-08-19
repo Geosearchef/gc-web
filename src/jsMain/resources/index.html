@@ -15,12 +15,27 @@
     }
 </script>
 
-<div id="debug-area">
-    <p id="debug-location"></p>
+
+<div id="login-container">
+    <h2>Willkommen!</h2>
+
+    <p>Um zusammenarbeiten zu können, müssen du und dein Partner euren Kommunikator auf die selbe Frequenz einstellen.</p>
+
+    <div id="login-freq-area">
+        <div>Aktuelle Frequenz:</div>
+        <div id="login-current-freq">---</div>
+
+        <div id="login-new-freq-area">
+            <input id="login-new-freq" type="text"/>
+            <button id="login-new-freq-set-button">Ändern</button>
+        </div>
+    </div>
 </div>
 
-<h1>Hello World!</h1>
 
+<div id="debug-area" style="padding-top: 150px; font-size: small !important;">
+    <p id="debug-location">Location NOT DETECTED!</p>
+</div>
 
 
 </body>

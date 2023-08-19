@@ -13,28 +13,25 @@ body {
     display: table-cell;
     vertical-align: middle;
     text-align: center;
-    margin:0;
-}
-
-body, input, button {
-    font-size: 30pt;
+    margin: 0;
     font-family: Verdana, sans-serif;
+    font-size: 30pt;
 }
 
-
-#login-container {
+#container {
     margin: 50px;
 }
 
-#login-freq-area {
+#freq-area {
     margin-top: 120px;
 }
 
-#login-current-freq {
+#current-freq {
     font-size: 40pt;
     font-weight: bold;
 }
 
-#login-new-freq-area {
+#new-freq-area {
     margin-top: 60px;
 }
+

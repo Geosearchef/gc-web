@@ -19,6 +19,10 @@ object WebServer {
             secure("gcweb-keystore.jks", "123456", "gcweb-keystore.jks", "123456")
         }
 
+        staticFiles.expireTime(1)
+
+        API.init()
+
         spark.Spark.init()
     }
 
