@@ -7,6 +7,8 @@ import org.w3c.dom.HTMLParagraphElement
 
 var currentFreq = -1
 var uuid = ""
+var gameJoined = false
+var gameId = -1
 
 fun onLoad() {
     println("Starting gcweb client...")
@@ -15,7 +17,11 @@ fun onLoad() {
 
     checkBrowser()
 
+    getAvailableGames()
     login()
+
+    println("Attempting to join game...")
+    attemptGameJoinLoop()
 
     locationTest()
 }
@@ -31,7 +37,7 @@ fun checkBrowser() {
 fun login() {
     Network.sendRequest("GET", "/login", {
         val res = Json.decodeFromString<LoginResponse>(it)
-        console.log("logged in as " + res.id)
+        println("logged in as " + res.id)
         uuid = res.id
         currentFreq = res.initialFreq
 
@@ -50,6 +56,50 @@ fun changeFreq() {
     })
 }
 
+fun getAvailableGames() {
+    Network.sendRequest("GET", "/availableGames", {
+        val res = Json.decodeFromString<AvailableGamesResponse>(it)
+        console.log("updated available games: ${res.games}")
+
+        View.updateAvailableGames(res.games)
+    })
+}
+
+fun attemptGameJoinLoop() {
+    if(gameJoined) {
+        println("Game in progress, stopping join task")
+        return
+    }
+
+    if(uuid == "" || View.loginGameSelector.childElementCount == 0) {
+        println("Not yet logged in / games available, aborting game join")
+        window.setTimeout(::attemptGameJoinLoop, GCWebOptions.GAME_JOIN_RETRY_INTERVAL)
+        return
+    }
+
+    println("Game join attempt") // TODO: remove
+
+    val desiredGameId = View.loginGameSelector.value.toInt()
+
+    Network.sendPlayerRequest("POST", "/joinGame?gameId=$desiredGameId", {
+        val res = Json.decodeFromString<JoinGameResponse>(it)
+
+        if(res.success) {
+            gameJoined = true
+            gameId = res.gameId
+            println("Joined Game $gameId!")
+
+            View.setViewState(View.ViewState.GAME)
+        }
+    })
+
+    if(!gameJoined) {
+        window.setTimeout(::attemptGameJoinLoop, GCWebOptions.GAME_JOIN_RETRY_INTERVAL)
+    } else {
+        println("Game in progress, stopping join task")
+    }
+}
+
 
 fun locationTest() {
 //    LocationManager.getOneShotLocation({ pos ->
@@ -65,10 +115,10 @@ fun locationTest() {
         console.log(pos)
         (document.getElementById("debug-location") as HTMLParagraphElement).textContent = pos.toString()
 
-        //TODO: just for testing
-        if(uuid != "") {
-            Network.sendLocationUpdate(pos.toLocation())
-        }
+//        //TODO: just for testing
+//        if(uuid != "") {
+//            Network.sendLocationUpdate(pos.toLocation())
+//        }
     }, { error, msg ->
         println("Encountered an error while obtaining location: ${error.name}, $msg")
     })

@@ -16,7 +16,7 @@ body {
     margin:0;
 }
 
-body, input, button {
+body, input, button, select {
     font-size: 30pt;
     font-family: Verdana, sans-serif;
 }
@@ -37,4 +37,12 @@ body, input, button {
 
 #login-new-freq-area {
     margin-top: 60px;
+}
+
+#login-game-select-area {
+    margin-top: 120px;
+}
+
+#login-game-selector {
+    /*font-size: 24pt;*/
 }
