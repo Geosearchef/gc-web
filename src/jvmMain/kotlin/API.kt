@@ -1,8 +1,11 @@
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import spark.Spark.*
+import util.Util
 
 object API {
+
+    val log = Util.logger()
 
     fun init() {
         get("/login") { req, res ->
@@ -17,6 +20,8 @@ object API {
                 val newFreq = req.queryParamOrDefault("freq", player.freq.toString()).toIntOrNull() ?: return@post "Bad request".also { res.status(400) }
                 player.freq = newFreq
 
+                println("Set frequency for player ${player.id} to $newFreq")
+
                 SetFreqResponse(player.freq).toJson()
             }
 
@@ -27,6 +32,8 @@ object API {
 
                 newLocation.serverTimestamp = System.currentTimeMillis()
                 player.lastLocation = newLocation
+
+                println("Received location update from ${player.id}: $newLocation")
 
                 newLocation.serverTimestamp
             }

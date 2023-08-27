@@ -26,6 +26,8 @@ fun checkBrowser() {
     }
 }
 
+
+
 fun login() {
     Network.sendRequest("GET", "/login", {
         val res = Json.decodeFromString<LoginResponse>(it)
@@ -62,6 +64,11 @@ fun locationTest() {
     LocationManager.watchLocation({ pos ->
         console.log(pos)
         (document.getElementById("debug-location") as HTMLParagraphElement).textContent = pos.toString()
+
+        //TODO: just for testing
+        if(uuid != "") {
+            Network.sendLocationUpdate(pos.toLocation())
+        }
     }, { error, msg ->
         println("Encountered an error while obtaining location: ${error.name}, $msg")
     })

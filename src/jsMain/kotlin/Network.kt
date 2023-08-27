@@ -1,6 +1,8 @@
 import org.w3c.xhr.XMLHttpRequest
 
 object Network {
+    const val POST = "POST"
+    const val GET = "GET"
 
     //inline fun <reified T> sendRequestWithResponse(method: String, route: String, crossinline onResponse: (T) -> Unit) {
     //    sendRequest(method, route) {
@@ -8,6 +10,16 @@ object Network {
     //        onResponse(message)
     //    }
     //}
+
+
+    fun sendLocationUpdate(newLocation: Location) {
+        sendPlayerRequest(POST, "/updateLocation", {}, UpdateLocationRequest(newLocation))
+    }
+
+
+    fun sendPlayerRequest(method: String, route: String, onResponse: (String) -> Unit, body: Message) {
+        sendPlayerRequest(method, route, onResponse, body.toJson())
+    }
 
     fun sendPlayerRequest(method: String, route: String, onResponse: (String) -> Unit, body: String? = null) {
         sendRequest(method, "/player/${uuid}${route}", onResponse, body)
