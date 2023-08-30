@@ -1,5 +1,6 @@
 import kotlinx.browser.document
 import org.w3c.dom.*
+import org.w3c.dom.events.Event
 
 object View {
 
@@ -12,6 +13,7 @@ object View {
     lateinit var loginContainer: HTMLDivElement
 
     lateinit var gameContainer: HTMLDivElement
+    lateinit var pageContainer: HTMLDivElement
 
 
     fun updateFreqDisplay() {
@@ -30,6 +32,27 @@ object View {
             )
         }
     }
+
+    fun setDisplayedPage(page: String) {
+        pageContainer.innerHTML = page
+
+        addListenerToClass(".navigation-button-back", { onNavigationBack() })
+        addListenerToClass(".navigation-button-forward", { onNavigationForward() })
+        addListenerToClass(".navigation-button-jump") { event ->
+            val targetPage = (event.target as? HTMLButtonElement)?.value?.toIntOrNull()
+            if (targetPage != null) {
+                onNavigationJump(targetPage)
+            }
+        }
+    }
+
+    private fun addListenerToClass(selector: String, listener: (Event) -> Unit) {
+        val buttons = pageContainer.querySelectorAll(selector)
+        for (i in 0 until buttons.length) {
+            (buttons[i] as? HTMLButtonElement)?.addEventListener("click", listener)
+        }
+    }
+
 
     fun setViewState(newViewState: ViewState) {
         viewState = newViewState
@@ -54,6 +77,7 @@ object View {
         loginNewFreqSetButton.addEventListener("click", { changeFreq() })
 
         gameContainer = document.getElementById("game-container") as HTMLDivElement
+        pageContainer = document.getElementById("page-container") as HTMLDivElement
 
 
         setViewState(ViewState.LOGIN)

@@ -9,6 +9,7 @@ var currentFreq = -1
 var uuid = ""
 var gameJoined = false
 var gameId = -1
+var pageId = 0
 
 fun onLoad() {
     println("Starting gcweb client...")
@@ -90,6 +91,10 @@ fun attemptGameJoinLoop() {
             println("Joined Game $gameId!")
 
             View.setViewState(View.ViewState.GAME)
+
+            window.setTimeout({
+                setPage(0)
+            }, 3000)
         }
     })
 
@@ -100,6 +105,24 @@ fun attemptGameJoinLoop() {
     }
 }
 
+fun setPage(newPageId: Int) {
+    Network.getPage(newPageId) { page ->
+        pageId = newPageId
+        View.setDisplayedPage(page) // TODO: use a message for this instead of a string
+    }
+}
+
+fun onNavigationBack() {
+    setPage(pageId - 1)
+}
+
+fun onNavigationForward() {
+    setPage(pageId + 1)
+}
+
+fun onNavigationJump(target: Int) {
+    setPage(target)
+}
 
 fun locationTest() {
 //    LocationManager.getOneShotLocation({ pos ->

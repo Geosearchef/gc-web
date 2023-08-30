@@ -62,6 +62,12 @@ object API {
                         registrationContextCurrentGameId = gameApi.gameId // sets the current global context, so that routes know their game id
 
                         gameApi.registerRoutes()
+
+                        registerGameGet("/page") { req, res, player, game ->
+                            val pageId = req.queryParams("pageId")?.toIntOrNull() ?: return@registerGameGet "Bad request".also { res.status(400) }
+
+                            return@registerGameGet game.getPage(player, pageId)
+                        }
                     }
                 }
             }

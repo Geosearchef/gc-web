@@ -16,6 +16,18 @@ object Network {
         sendPlayerRequest(POST, "/updateLocation", {}, UpdateLocationRequest(newLocation))
     }
 
+    fun getPage(pageId: Int, onResponse: (String) -> Unit) {
+        sendGameRequest(GET, "/page?pageId=$pageId", onResponse)
+    }
+
+
+    fun sendGameRequest(method: String, route: String, onResponse: (String) -> Unit, body: Message) {
+        sendGameRequest(method, route, onResponse, body.toJson())
+    }
+
+    fun sendGameRequest(method: String, route: String, onResponse: (String) -> Unit, body: String? = null) {
+        sendPlayerRequest(method, "/game/${gameId}${route}", onResponse, body)
+    }
 
     fun sendPlayerRequest(method: String, route: String, onResponse: (String) -> Unit, body: Message) {
         sendPlayerRequest(method, route, onResponse, body.toJson())

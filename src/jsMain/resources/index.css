@@ -22,7 +22,7 @@ body, input, button, select {
 }
 
 
-#login-container {
+#login-container, #game-container {
     margin: 50px;
 }
 
@@ -46,3 +46,20 @@ body, input, button, select {
 #login-game-selector {
     /*font-size: 24pt;*/
 }
+
+
+
+.navigation-button-area {
+    display: inline-block;
+    margin-top: 120px;
+}
+.navigation-button-area > * {
+    margin-left: 30px;
+    margin-right: 30px;
+}
+.navigation-button-area > button {
+    font-size: 48pt;
+    padding: 15px;
+}
+
+

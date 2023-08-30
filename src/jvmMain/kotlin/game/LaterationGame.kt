@@ -1,6 +1,9 @@
 package game
 
-class LaterationGame(freq: Int) : Game(gameId, gameName, freq) {
+import API
+import Player
+
+class LaterationGame(freq: Int) : Game(gameId, gameName, freq, "lateration") {
 
     companion object : GameAPI {
         override fun registerRoutes() {
@@ -13,5 +16,14 @@ class LaterationGame(freq: Int) : Game(gameId, gameName, freq) {
         override val gameName = "LaterationGame"
     }
 
+    val pages = mapOf(
+        0 to readPageFromDisk("00intro.html")
+    )
 
+    // DO NOT RETURN USER SUPPLIED DATA!
+    override fun getPage(player: Player, pageId: Int): String {
+        val page = pages[pageId] ?: return "Page $pageId does not exist!" // TODO: return page id here?
+
+        return page
+    }
 }
