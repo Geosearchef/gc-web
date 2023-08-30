@@ -1,16 +1,18 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 buildscript {
     repositories {
         mavenCentral()
     }
-    dependencies {
-        classpath("com.github.jengelman.gradle.plugins:shadow:6.1.0")
-    }
+//    dependencies {
+//        classpath("com.github.jengelman.gradle.plugins:shadow:8.1.1")
+//    }
 }
 
 plugins {
     kotlin("multiplatform") version "1.5.31"
     kotlin("plugin.serialization") version "1.4.10"
-    id("com.github.johnrengelman.shadow") version "5.0.0"
+    id("com.github.johnrengelman.shadow") version "7.1.2"
     application
 }
 
@@ -71,6 +73,12 @@ kotlin {
 
 application {
     mainClass.set("GCWebServerKt")
+}
+
+tasks.named<ShadowJar>("shadowJar") {
+    manifest {
+        attributes["Main-Class"] = "GCWebServerKt"
+    }
 }
 
 tasks.named<Copy>("jvmProcessResources") {
