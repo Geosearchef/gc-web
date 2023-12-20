@@ -17,7 +17,8 @@ class LaterationGame(freq: Int) : Game(gameId, gameName, freq, "lateration") {
     }
 
     val pages = mapOf(
-        0 to readPageFromDisk("00intro.html")
+        0 to readPageFromDisk("00intro.html"),
+        1 to readPageFromDisk("01test.html")
     )
 
     // DO NOT RETURN USER SUPPLIED DATA!
